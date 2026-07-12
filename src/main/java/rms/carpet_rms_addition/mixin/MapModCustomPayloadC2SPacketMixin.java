@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import rms.carpet_rms_addition.RawCustomPayload;
 import rms.carpet_rms_addition.WorldMapIdentityHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.util.Identifier;
 import net.minecraft.network.PacketByteBuf;
@@ -35,8 +36,9 @@ public abstract class MapModCustomPayloadC2SPacketMixin {
     //#if MC >= 12100
     //$$ @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/CustomPayload;createCodec(Lnet/minecraft/network/packet/CustomPayload$CodecFactory;Ljava/util/List;)Lnet/minecraft/network/codec/PacketCodec;"), index = 1)
     //$$ private static List<net.minecraft.network.packet.CustomPayload.Type<? super net.minecraft.network.PacketByteBuf, ?>> addMapModPayloads(final List<net.minecraft.network.packet.CustomPayload.Type<? super net.minecraft.network.PacketByteBuf, ?>> types) {
-    //$$     types.add(RawCustomPayload.type(WorldMapIdentityHelper.voxelMapChannel()));
-    //$$     return types;
+    //$$     final List<net.minecraft.network.packet.CustomPayload.Type<? super net.minecraft.network.PacketByteBuf, ?>> mutable = new ArrayList<>(types);
+    //$$     mutable.add(RawCustomPayload.type(WorldMapIdentityHelper.voxelMapChannel()));
+    //$$     return mutable;
     //$$ }
     //#endif
 }
