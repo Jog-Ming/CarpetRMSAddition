@@ -15,6 +15,7 @@ import rms.carpet_rms_addition.WorldMapIdentityNetworking;
 @Mixin(ServerPlayNetworkHandler.class)
 //#endif
 public abstract class MapModServerPlayNetworkHandlerMixin {
+    //#if MC < 12100
     //#if MC < 12002
     @Shadow
     public ServerPlayerEntity player;
@@ -37,4 +38,5 @@ public abstract class MapModServerPlayNetworkHandlerMixin {
         if (WorldMapIdentityNetworking.handleVoxelMapQuery(this.player, packet)) ci.cancel();
         //#endif
     }
+    //#endif
 }

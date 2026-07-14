@@ -27,6 +27,9 @@ public final class CarpetRMSAddition implements CarpetExtension, ModInitializer 
             .getMetadata();
         name = metadata.getName();
         version = metadata.getVersion().getFriendlyString();
+        //#if MC >= 12100
+        //$$ WorldMapIdentityNetworking.registerVoxelMapReceiver();
+        //#endif
         CarpetServer.manageExtension(new CarpetRMSAddition());
     }
     

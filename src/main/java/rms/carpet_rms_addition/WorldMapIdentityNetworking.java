@@ -9,6 +9,18 @@ public final class WorldMapIdentityNetworking {
     private WorldMapIdentityNetworking() {
     }
 
+    //#if MC >= 12100
+    //$$ public static void registerVoxelMapReceiver() {
+    //$$     final Identifier channel = WorldMapIdentityHelper.voxelMapChannel();
+    //$$     final net.minecraft.network.packet.CustomPayload.Id<RawCustomPayload> packetId = RawCustomPayload.id(channel);
+    //$$     net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S().register(packetId, RawCustomPayload.codec(channel));
+    //$$     net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
+    //$$         packetId,
+    //$$         (payload, context) -> sendVoxelMapResponse(context.player())
+    //$$     );
+    //$$ }
+    //#endif
+
     public static boolean handleVoxelMapQuery(
         final ServerPlayerEntity player,
         //#if MC >= 12002
@@ -18,17 +30,14 @@ public final class WorldMapIdentityNetworking {
         //#endif
     ) {
         final Identifier channel;
-        final byte[] requestBytes;
         //#if MC >= 12002
         //$$ if (!(packet.payload() instanceof RawCustomPayload payload)) return false;
         //$$ channel = payload.channel();
-        //$$ requestBytes = payload.data();
         //#else
         channel = packet.getChannel();
-        requestBytes = copyBytes(packet.getData());
         //#endif
         if (!WorldMapIdentityHelper.voxelMapChannel().equals(channel)) return false;
-        sendVoxelMapResponse(player, requestBytes);
+        sendVoxelMapResponse(player);
         return true;
     }
 
@@ -40,10 +49,10 @@ public final class WorldMapIdentityNetworking {
         send(player, WorldMapIdentityHelper.xaeroWorldMapChannel(), payload);
     }
 
-    private static void sendVoxelMapResponse(final ServerPlayerEntity player, final byte[] requestBytes) {
+    private static void sendVoxelMapResponse(final ServerPlayerEntity player) {
         final String worldId = WorldMapIdentityHelper.resolveWorldId(player.getServerWorld().getServer());
         if (worldId == null) return;
-        send(player, WorldMapIdentityHelper.voxelMapChannel(), WorldMapIdentityHelper.formatVoxelMapResponse(requestBytes, worldId));
+        send(player, WorldMapIdentityHelper.voxelMapChannel(), WorldMapIdentityHelper.formatVoxelMapResponse(worldId));
     }
 
     private static void send(final ServerPlayerEntity player, final Identifier channel, final byte[] bytes) {
@@ -54,9 +63,4 @@ public final class WorldMapIdentityNetworking {
         //#endif
     }
 
-    private static byte[] copyBytes(final PacketByteBuf buffer) {
-        final byte[] bytes = new byte[buffer.readableBytes()];
-        buffer.getBytes(buffer.readerIndex(), bytes);
-        return bytes;
-    }
 }

@@ -7,6 +7,10 @@ dependencies {
     mappings "net.fabricmc:yarn:$name+build.$yarn_mappings:v2"
     modImplementation "net.fabricmc:fabric-loader:$loader_version"
     modImplementation "carpet:fabric-carpet:$carpet_core_version"
+    if (mcVersion >= 12100) {
+        modImplementation "net.fabricmc.fabric-api:fabric-networking-api-v1:$fabric_networking_api_version"
+    }
+    testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
 }
 loom {
     accessWidenerPath = file "${id}.accesswidener"
@@ -25,11 +29,19 @@ JavaVersion javaCompatibility
 if (mcVersion < 11700) javaCompatibility = JavaVersion.VERSION_1_8 else if (mcVersion < 11800) javaCompatibility = JavaVersion.VERSION_16 else if (mcVersion < 12005) javaCompatibility = JavaVersion.VERSION_17 else javaCompatibility = JavaVersion.VERSION_21
 processResources {
     from "${id}.accesswidener"
-    filesMatching('fabric.mod.json') { expand id: id, version: version, minecraft_version: project.name, carpet_version: carpet_core_version.replaceAll(/^\d+\.\d+(?:\.\d+)?-(\d+\.\d+\.\d+).*$/, '$1'), loader_version: loader_version }
+    filesMatching('fabric.mod.json') {
+        expand id: id,
+            version: version,
+            minecraft_version: project.name,
+            carpet_version: carpet_core_version.replaceAll(/^\d+\.\d+(?:\.\d+)?-(\d+\.\d+\.\d+).*$/, '$1'),
+            loader_version: loader_version,
+            fabric_networking_dependency: mcVersion >= 12100 ? '"fabric-networking-api-v1": "*",' : ''
+    }
     filesMatching("${id}.mixins.json") { expand java_version: javaCompatibility.getMajorVersion() }
 }
 java {
     sourceCompatibility = javaCompatibility
     targetCompatibility = javaCompatibility
 }
+test { useJUnitPlatform() }
 jar { from '../../LICENSE' }

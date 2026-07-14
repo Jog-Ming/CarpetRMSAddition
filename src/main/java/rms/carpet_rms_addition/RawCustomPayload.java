@@ -40,14 +40,18 @@ public final class RawCustomPayload {
     //#if MC >= 12100
     //$$ @Override
     //$$ public net.minecraft.network.packet.CustomPayload.Id<RawCustomPayload> getId() {
-    //$$     return new net.minecraft.network.packet.CustomPayload.Id<>(this.channel);
+    //$$     return id(this.channel);
+    //$$ }
+    //$$
+    //$$ public static net.minecraft.network.packet.CustomPayload.Id<RawCustomPayload> id(final Identifier channel) {
+    //$$     return new net.minecraft.network.packet.CustomPayload.Id<>(channel);
     //$$ }
     //$$
     //$$ public static net.minecraft.network.packet.CustomPayload.Type<net.minecraft.network.PacketByteBuf, RawCustomPayload> type(final Identifier channel) {
-    //$$     return new net.minecraft.network.packet.CustomPayload.Type<>(new net.minecraft.network.packet.CustomPayload.Id<>(channel), codec(channel));
+    //$$     return new net.minecraft.network.packet.CustomPayload.Type<>(id(channel), codec(channel));
     //$$ }
     //$$
-    //$$ private static net.minecraft.network.codec.PacketCodec<net.minecraft.network.PacketByteBuf, RawCustomPayload> codec(final Identifier channel) {
+    //$$ public static net.minecraft.network.codec.PacketCodec<net.minecraft.network.PacketByteBuf, RawCustomPayload> codec(final Identifier channel) {
     //$$     return net.minecraft.network.packet.CustomPayload.codecOf(
     //$$         (payload, buffer) -> buffer.writeBytes(payload.data),
     //$$         buffer -> new RawCustomPayload(channel, readBytes(buffer))
