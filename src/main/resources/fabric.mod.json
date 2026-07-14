@@ -27,7 +27,7 @@
   "accessWidener": "${id}.accesswidener",
   "depends": {
     "fabricloader": ">=$loader_version",
-    $fabric_networking_dependency
+    "fabric-networking-api-v1": "*",
     "carpet": ">=$carpet_version",
     "minecraft": "$minecraft_version"
   }

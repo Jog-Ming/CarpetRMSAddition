@@ -34,8 +34,13 @@ processResources {
             version: version,
             minecraft_version: project.name,
             carpet_version: carpet_core_version.replaceAll(/^\d+\.\d+(?:\.\d+)?-(\d+\.\d+\.\d+).*$/, '$1'),
-            loader_version: loader_version,
-            fabric_networking_dependency: mcVersion >= 12100 ? '"fabric-networking-api-v1": "*",' : ''
+            loader_version: loader_version
+        // Fabric Networking API is a hard runtime dependency only on 1.21+ (see dependencies block).
+        // On older versions strip the descriptor line so the produced fabric.mod.json does not require it.
+        // Match is by key substring; the descriptor must declare this dependency at most once.
+        if (mcVersion < 12100) {
+            filter { String line -> line.contains('"fabric-networking-api-v1"') ? null : line }
+        }
     }
     filesMatching("${id}.mixins.json") { expand java_version: javaCompatibility.getMajorVersion() }
 }
