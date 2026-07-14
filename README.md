@@ -8,6 +8,17 @@ A [Minecraft](https://www.minecraft.net/en-us) [Carpet Mod](https://github.com/g
 
 ## Rules
 
+### autoUpdate
+
+Controls whether a newer release found on Modrinth is automatically applied. The mod **always** checks for updates on
+a dedicated server and logs a notice when one is available. When this rule is `true`, the new jar is downloaded
+(verified against its SHA-512 hash) into the mods folder and the running jar is backed up, taking effect on the next
+restart — only on Linux and macOS. When `false` (the default), or on Windows / when the jar cannot be located or
+replaced, the notice links the manual download instead.
+
+* Default value: `false`
+* Options: `false`, `true`
+
 ### endPlatformBreakingBackport
 
 Ports the behavior of end portals from 1.21 pre1, where the end platform drops items when breaking blocks.

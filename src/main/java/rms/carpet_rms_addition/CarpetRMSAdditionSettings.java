@@ -29,6 +29,8 @@ public final class CarpetRMSAdditionSettings {
     public static String overrideMonsterSkyLightLevel = "false";
     @Rule(desc = "Make /data get return more nbt", category = { RMS })
     public static boolean enhancedDataGet = false;
+    @Rule(desc = "Automatically apply a newer release found on Modrinth by replacing the jar on Linux/macOS (next restart). Update checks always run regardless of this setting; when false a notice is logged instead", category = { RMS })
+    public static boolean autoUpdate = false;
     @SuppressWarnings("unused")
     @Rule(desc = "A list of entities, in the form of [minecraft:boat,minecraft:creeper], for each the server will not send update packets", category = { RMS }, validate = InterceptUpdatePacketEntitiesValidator.class)
     public static String interceptUpdatePacketEntities = "[]";

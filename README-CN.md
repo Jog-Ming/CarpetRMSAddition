@@ -8,6 +8,13 @@
 
 ## 规则
 
+### autoUpdate
+
+控制是否自动应用 Modrinth 上发现的新版本。无论此项如何设置，模组都**始终**在专用服务器上检查更新，并在有新版本时输出日志提醒。设为 `true` 时（仅 Linux 和 macOS），会将新版（校验 SHA-512 哈希后）下载到 mods 目录并备份运行中的 jar，下次重启生效。设为 `false`（默认），或在 Windows / 无法定位或替换 jar 时，提醒中只给出手动下载链接。
+
+* 默认值：`false`
+* 选项：`false`、`true`
+
 ### endPlatformBreakingBackport
 
 移植 1.21 pre1 版本末地传送门生成黑曜石平台的过程中，在破坏方块时会掉落物品的行为。
